@@ -25,18 +25,25 @@ public class PrefixTree {
     }
 
 
-    //содержит ли слово
-    public boolean hasWord(String word){
+    public boolean hasWord(String word) {
+        return hasWordOrStartsWith(word, true);
+    }
+
+    public boolean hasWordStartsWith(String prefix) {
+        return hasWordOrStartsWith(prefix, false);
+    }
+
+    private boolean hasWordOrStartsWith(String str, boolean isEndOfWord) {
         Node node = root;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
             if (node.hasChild(ch)) {
                 node = node.getChild(ch);
             } else {
                 return false;
             }
         }
-        return node.isEndOfWord();
+        return !isEndOfWord || node.isEndOfWord();
     }
 
     public void deleteWord(String word) {
@@ -70,36 +77,30 @@ public class PrefixTree {
         return false;
     }
 
-    public boolean hasWordStartsWith(String prefix) {
-        Node node = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            char ch = prefix.charAt(i);
-            if (node.hasChild(ch)) {
-                node = node.getChild(ch);
+    public List<String> getAllWords() {
+        StringBuilder curString = new StringBuilder();
+        return getAllWords(root, curString);
+    }
+
+    private List<String> getAllWords(Node currentNode, StringBuilder curString) {
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<Character, Node> child : currentNode.children.entrySet()) {
+            if (child.getValue().isEndOfWord()) {
+                list.add(String.valueOf(curString.append(child.getKey())));
+            }
+            if (child.getValue().isEmpty()) {
+                curString.setLength(curString.length() - 1);
+                return list;
             } else {
-                return false;
+                curString.append(child.getKey());
+                list.addAll(getAllWords(child.getValue(), curString));
+                curString.setLength(curString.length() - 1);
             }
         }
-        return true;
+        return list;
     }
-
     /*
-     Написать 2 функции для вывода всех слов из дерева:
-      1-ая функция просто вызывается, а внутри себя вызывает вторую функцию с параметрами, которая будет вызываться рекурсивно
-      2-ая:
-            на псевдокоде:
-                    private List getAllWords(Node currentNode, String currentStr, ) {
-                        foreach (child : children) {
-
-                        }
-                    }
-
-
-
-     */
-    public List<String> getAllWords() {
-        return getAllWords(root, "");
-    }
+    Прошлая версия функции с конкатенацией строк
 
     private List<String> getAllWords(Node currentNode, String curString) {
         List<String> list = new ArrayList<>();
@@ -115,4 +116,5 @@ public class PrefixTree {
         }
         return list;
     }
+*/
 }

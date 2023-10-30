@@ -10,7 +10,7 @@ public class Main {
         System.out.println(trie.hasWord("milkyway")); //true
 
         trie.deleteWord("milkyway");
-        System.out.println(trie.hasWord("milkyway")); //true
+        System.out.println(trie.hasWord("milkyway")); //false
         System.out.println(trie.hasWordStartsWith("mil")); //true
         System.out.println(trie.getAllWords());
     }
