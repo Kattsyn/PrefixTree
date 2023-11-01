@@ -1,9 +1,14 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class Node {
 
     private boolean isEndOfWord;
-    public HashMap<Character, Node> children;
+    public Map<Character, Node> children;
+
+
+
+    private String word;
 
     public Node() {
         this.isEndOfWord = false;
@@ -18,6 +23,13 @@ public class Node {
         }
     }
 
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getWord() {
+        return word;
+    }
     //Если есть потомок, то вернуть, иначе вернуть null
     public Node getChild(char ch) {
         return children.getOrDefault(ch, null);
