@@ -1,23 +1,35 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class Node {
 
     private boolean isEndOfWord;
-    public HashMap<Character, Node> children;
+    public Map<Character, Node> children;
+
+
+
+    private String word;
 
     public Node() {
         this.isEndOfWord = false;
-        this.children = new HashMap<Character, Node>();
+        this.children = new HashMap<>();
     }
 
 
     //добавление потомка с ключом символа и значением новой ветви
     public void addChild(char ch) {
-            if (!children.containsKey(ch)) {
-                children.put(ch, new Node());
-            }
+        if (!children.containsKey(ch)) {
+            children.put(ch, new Node());
+        }
     }
 
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getWord() {
+        return word;
+    }
     //Если есть потомок, то вернуть, иначе вернуть null
     public Node getChild(char ch) {
         return children.getOrDefault(ch, null);
@@ -32,12 +44,7 @@ public class Node {
     }
 
     public boolean isEmpty() {
-        return children.size() == 0;
-    }
-
-    //является ли текущая ветвь - листочком (последним узлом слова)
-    public boolean isLeaf(){
-        return children.size() == 0;
+        return children.isEmpty();
     }
 
     public boolean isEndOfWord() {
